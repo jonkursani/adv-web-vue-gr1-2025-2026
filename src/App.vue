@@ -3,6 +3,7 @@
 <!-- script - Logic JS -->
 <script setup>
 import { reactive, ref, computed } from 'vue';
+import Detyra1 from './Detyra1.vue';
 
 // const text = document.getElementById('text');
 // text.innerHTML = 'You did it!';
@@ -112,6 +113,20 @@ const classObjComputed = computed(() => {
     'text-danger': !isCompleted.value // && hasError.value
   }
 }) 
+
+// Binding inline styles
+const blueColor = ref('blue');
+const uppercase = ref('uppercase');
+const styleObject = reactive({
+  color: 'green',
+  // 'font-size': '20px'
+  fontSize: '20px'
+})
+
+// Conditional rendering
+const awesome = ref(true);
+const type = ref('C');
+const ok = ref(false);
 </script>
 
 <!-- template - HTML -->
@@ -208,6 +223,64 @@ const classObjComputed = computed(() => {
     Computed class object example
     <button @click="isCompleted = !isCompleted">Toggle completed</button>
   </p>
+
+  <!-- Binding to array -->
+  <p :class="['active', 'text-danger', isCompleted ? 'completed' : '']">
+    Binding to array example
+  </p>
+  <p :class="['klasa-tjeter', { completed: isCompleted }]">
+    Binding to array with object example
+  </p>
+
+  <!-- Binding inline styles -->
+   <!-- { key: value } -->
+  <!-- Si key perdoret property ne css color, textDecoration, textTransform  -->
+  <p :style="{ color: blueColor, textTransform: uppercase  }">
+    Binding inline styles example
+  </p>
+  <p :style="styleObject">
+    Binding to style object example
+  </p>
+
+  <Detyra1 />
+
+  <!-- 
+    Conditional rendering
+    v-if - renders the element and its children only if the condition is true
+    v-else-if - renders the element and its children if the previous condition is false and this condition is true
+    v-else - renders the element and its children if the previous conditions are false
+    v-show - renders the element and its children only if the condition is true
+  -->
+
+  <p v-if="awesome">Vue is awesome</p>
+  <p v-else>Vue is not awesome</p>
+  <button @click="awesome = !awesome">Toggle</button>
+
+  <p v-if="type === 'A'">
+    Type A
+  </p>
+  <p v-else-if="type === 'B'">
+    Type B
+  </p>
+  <p v-else>
+    Other type
+  </p>
+
+
+  <!-- 
+    Template - renders the element and its children does not affect the DOM
+    template si tag nuk shfaqet veq elementet brenda tij, 
+    perdoret per te grupuar elemente pa shtuar element ne DOM 
+  -->
+  <!-- <h1 v-if="ok">Template</h1>
+  <p v-if="ok">This is a simple template</p> -->
+  <template v-if="ok">
+    <h1>Template</h1>
+    <p>This is a simple template</p>
+  </template>
+
+  <!-- V-show -->
+  <p v-show="ok">V-show</p>
 </template>
 
 <!-- style - CSS -->
