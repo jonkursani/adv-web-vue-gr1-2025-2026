@@ -87,7 +87,11 @@ function incrementReactive() {
 // Computed properties computed(() => {})
 const author = reactive({
   name: 'John Doe',
-  books: ['Book 1', 'Book 2', 'Book 3']
+  books: [
+    { title: 'Book 1', year: 2020 },
+    { title: 'Book 2', year: 2021 },
+    { title: 'Book 3', year: 2022 }
+  ]
 })
 
 const hasPublishedBooks = computed(() => {
@@ -127,6 +131,25 @@ const styleObject = reactive({
 const awesome = ref(true);
 const type = ref('C');
 const ok = ref(false);
+
+// Form input bindings
+const text = ref('');
+// function onInput(e) {
+//   text.value = e.target.value
+// }
+
+const textArea = ref('');
+const checked = ref(false)
+const checkedNames = ref(['vue']);
+const picked = ref('');
+const selected = ref('');
+const options = ref([
+  { value: 'a', text: 'A' },
+  { value: 'b', text: 'B' },
+  { value: 'c', text: 'C' },
+  { value: 'd', text: 'D' },
+  { value: 'e', text: 'E' }
+])
 </script>
 
 <!-- template - HTML -->
@@ -281,6 +304,89 @@ const ok = ref(false);
 
   <!-- V-show -->
   <p v-show="ok">V-show</p>
+
+  <!-- 
+    List rendering
+    v-for - renders a list of items based on an array
+    syntax: v-for="item in items" :key="item.id" 
+  -->
+  <ul>
+    <li v-for="n in 5">{{ n }}</li>
+  </ul>
+
+  <!-- 0 cilesohet si false -->
+  <ul v-if="author.books.length"> 
+    <!-- v-for -->
+    <!-- <li v-for="book in author.books"> -->
+    <!-- v-for with index -->
+    <!-- <li v-for="(book, index) in author.books"> -->
+    <!-- v-for with destructuring -->
+    <!-- v-for with template per grupim -->
+    <!-- Mos e perdorni v-if dhe v-for ne te njejtin element sepse v-if ka prioritet me te larte -->
+    <!-- :key atributi duhet me pas ni vlere unike ex: id nese nuk keni ja vendosni index -->
+    <template 
+      v-for="({ title, year }, index) in author.books"
+      :key="index"
+    >  
+      <li>{{ index }}. {{ title }} - ({{ year }})</li>
+      <hr>
+    </template>
+  </ul>
+  <ul v-else>
+    <li>No books published</li>
+  </ul>
+
+  <!-- v-for with objects -->
+  <ul>
+    <!-- <li v-for="u in user"> -->
+    <li v-for="(vlera, celsi, indeksi) in user">
+      {{ indeksi }}. {{ celsi }}: {{ vlera }}
+    </li>
+  </ul>
+
+  <!-- Form input bindings -->
+  <!-- Two way data binding v-model -->
+  <!-- <input type="text" :value="text" @input="onInput"> -->
+  <!-- Text -->
+  <input type="text" v-model="text">
+  <p>Text: {{ text }}</p>
+
+  <!-- Textarea -->
+  <textarea v-model="textArea"></textarea>
+  <p>Text area: {{ textArea }}</p>
+
+  <!-- Checkbox -->
+  <input type="checkbox" id="checkbox" v-model="checked">
+  <label for="checkbox">Check me</label>
+  <p>Checked: {{ checked }}</p>
+
+  <!-- Multiple checkboxes -->
+  <input type="checkbox" id="vue" value="vue" v-model="checkedNames">
+  <label for="vue">Vue</label>
+  <input type="checkbox" id="react" value="react" v-model="checkedNames">
+  <label for="react">React</label>
+  <input type="checkbox" id="angular" value="angular" v-model="checkedNames">
+  <label for="angular">Angular</label>
+  <p>Checked names: {{ checkedNames }}</p>
+
+  <!-- Radio buttons -->
+  <input type="radio" id="one" value="one" v-model="picked">
+  <label for="one">One</label>
+  <input type="radio" id="two" value="two" v-model="picked">
+  <label for="two">Two</label>
+  <p>Picked: {{ picked }}</p>
+
+  <!-- Select v-model te select jo te option -->
+  <select v-model="selected">
+    <option value="" disabled>Select an option</option>
+    <!-- <option value="a">A</option>
+    <option value="b">B</option> 
+    <option value="c">C</option> -->
+    <option v-for="option in options" :value="option.value">
+      {{ option.text }}
+    </option>
+  </select>
+  <p>Selected: {{ selected }}</p>
 </template>
 
 <!-- style - CSS -->
