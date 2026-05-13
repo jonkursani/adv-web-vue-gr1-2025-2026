@@ -4,6 +4,9 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
 import Detyra1 from './Detyra1.vue';
+// importimi local i komponentes
+import MyComponent from './MyComponent.vue';
+import UserForm from './UserForm.vue';
 
 // const text = document.getElementById('text');
 // text.innerHTML = 'You did it!';
@@ -150,6 +153,16 @@ const options = ref([
   { value: 'd', text: 'D' },
   { value: 'e', text: 'E' }
 ])
+
+// Components
+function handleLike(vleraNgaChild) {
+  // alert('You liked the post! ' + vlera);
+  alert(vleraNgaChild);
+}
+
+function handleSubmit(userData) {
+  alert(`Submitted user: ${userData.name} with email: ${userData.email}`);
+}
 </script>
 
 <!-- template - HTML -->
@@ -387,6 +400,42 @@ const options = ref([
     </option>
   </select>
   <p>Selected: {{ selected }}</p>
+
+  <!-- Components -->
+  <!-- <MyComponent /> -->
+  <!-- <my-component /> -->
+  <!-- Props-at na ndihmojne me dergu te dhena prej parent te child -->
+  <!-- <MyComponent 
+    title="My Title" 
+    content="This is the content for my component." 
+    :views="100"
+  /> -->
+  <!-- <MyComponent 
+    title="Another Title" 
+    content="This is another content for my component." 
+  /> -->
+  <MyComponent 
+    :post="{
+      title: 'Post Title',
+      content: 'This is the content of the post.',
+      views: 200
+    }"
+    @on-click-like="handleLike"
+  >
+    <!-- <template #default>
+      <p>This is some additional content passed from the parent component.</p>
+    </template> -->
+    <p>This is some additional content passed from the parent component.</p>
+
+    <template #button>
+      <button>Subscribe</button>
+    </template>
+  </MyComponent>  
+
+  <!-- Add user -->
+  <UserForm @on-submit="handleSubmit" />
+  <!-- Edit user -->
+  <UserForm @on-submit="handleSubmit" is-edit />
 </template>
 
 <!-- style - CSS -->
