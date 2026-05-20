@@ -1,5 +1,5 @@
 <script setup>
-import UserForm from '@/UserForm.vue';
+import UserForm from '@/components/UserForm.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter()
