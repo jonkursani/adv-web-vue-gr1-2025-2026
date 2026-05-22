@@ -1,6 +1,9 @@
 <script setup>
 import TheLayout from './components/ui/TheLayout.vue';
+import AuthView from "@/views/auth/AuthView.vue";
+import {useAuthStore} from "@/stores/authStore.js";
 
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -9,7 +12,9 @@ import TheLayout from './components/ui/TheLayout.vue';
   <!-- per me i renderu views -->
   <!-- <RouterView /> -->
 
-  <TheLayout />
+  <AuthView v-if="!authStore.isAuthenticated" />
+  <TheLayout v-else />
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
