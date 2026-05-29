@@ -3,6 +3,7 @@ import {reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useAuthStore} from "@/stores/authStore.js";
 import AppButton from "@/components/ui/AppButton.vue";
+import {useAppToast} from "@/composables/useAppToast.js";
 
 const user = reactive({
   email: '',
@@ -13,11 +14,13 @@ const loading = ref(false)
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+// const toast = useAppToast()
+const { showWarning } = useAppToast()
 
 async function handleSubmit() {
 //   logjika per submit
   if (!user.email || !user.password) {
-    alert('Please fill in all fields')
+    showWarning('Please fill in all fields')
     return
   }
 
@@ -27,8 +30,10 @@ async function handleSubmit() {
     const redirectUrl = `${route.query?.redirect || '/'}`
     await router.push(redirectUrl)
   } catch (e) {
-    console.error(e)
-    alert('Login failed. Please check your credentials and try again.')
+    // console.error(e)
+    // alert('Login failed. Please check your credentials and try again.')
+    // toast.showWarning('Login failed. Please check your credentials and try again.')
+    showWarning('Login failed. Please check your credentials and try again.')
   } finally {
     loading.value = false
   }

@@ -41,7 +41,14 @@ const isActive = (routeName) => {
           <li class="sidebar-item" :class="isActive('home')">
             <RouterLink to="/" class="sidebar-link">
               <i class="bi bi-grid-fill"></i>
-              <span>Dashboard</span>
+              <span>Ballina</span>
+            </RouterLink>
+          </li>
+
+          <li class="sidebar-item" :class="isActive('departments')">
+            <RouterLink :to="{ name: 'departments' }" class="sidebar-link">
+              <i class="bi bi-building-fill"></i>
+              <span>Departamentet</span>
             </RouterLink>
           </li>
 

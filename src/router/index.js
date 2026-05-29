@@ -1,6 +1,7 @@
 import HomeView from "@/views/HomeView.vue";
 import { createRouter, createWebHistory } from "vue-router"
 import {useAuthStore} from "@/stores/authStore.js";
+import departmentRoutes from "@/router/departmentRoutes.js";
 
 const routes = [
     {
@@ -32,6 +33,7 @@ const routes = [
         component: () => import('@/views/EditUserView.vue'),
         meta: { requiresAuth: true }
     },
+    ...departmentRoutes,
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
