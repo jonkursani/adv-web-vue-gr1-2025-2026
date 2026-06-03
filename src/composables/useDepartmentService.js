@@ -13,8 +13,33 @@ export function useDepartmentService() {
         }
     }
 
+    async function getById(id) {
+        const response = await client.get(`/departments/${id}`)
+        return response.status === 200 ? response.data : null
+    }
+
+    async function create(department) {
+        const response = await client.post('/departments', department)
+        return response.status === 201 ? response.data : null
+    }
+
+    async function update(id, department) {
+        const response = await client.put(`/departments/${id}`, department)
+        return response.status === 200 ? response.data : null
+    }
+
+    async function remove(id) {
+        const response = await client.delete(`/departments/${id}`)
+        // return response.status === 204 ? true : false
+        return response.status === 204
+    }
+
     return {
         departments,
-        getAllDepartments
+        getAllDepartments,
+        create,
+        getById,
+        update,
+        remove
     }
 }

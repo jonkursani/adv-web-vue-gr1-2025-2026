@@ -10,5 +10,11 @@ export default [
         name: 'create-department',
         component: () => import('@/views/department/CreateDepartmentView.vue'),
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/departments/update/:id',
+        name: 'update-department',
+        component: () => import('@/views/department/UpdateDepartmentView.vue'),
+        meta: { requiresAuth: true }
     }
 ]

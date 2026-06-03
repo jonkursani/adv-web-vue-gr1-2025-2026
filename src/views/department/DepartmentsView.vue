@@ -14,8 +14,8 @@ DataTable.use(DataTablesCore);
 DataTable.use(DataTablesBS5);
 
 const loading = ref(false)
-const {departments, getAllDepartments} = useDepartmentService()
-const {showError} = useAppToast()
+const {departments, getAllDepartments, remove} = useDepartmentService()
+const {showError, showDialog, showSuccess} = useAppToast()
 
 async function loadDepartments() {
   try {
@@ -25,6 +25,29 @@ async function loadDepartments() {
     showError('Departamentet nuk u gjeten. Provoni perseri!')
   } finally {
     loading.value = false
+  }
+}
+
+async function onDelete(id) {
+  const dialog = await showDialog(
+      "A jeni i sigurte?",
+      "Ky veprim nuk mund te kthehet!",
+      "Po, fshije"
+  )
+
+  if (dialog.isConfirmed) {
+    try {
+      loading.value = true
+      const response = await remove(id)
+      if (response) {
+        showSuccess('Departamenti u fshij me sukses')
+        await loadDepartments()
+      }
+    } catch (e) {
+      showError('Ka ndodhur nje gabim gjate fshirjes. Ju lutem provoni perseri.')
+    } finally {
+      loading.value = false
+    }
   }
 }
 
@@ -71,8 +94,15 @@ onMounted(async () => {
           <td>{{ dep.name }}</td>
           <td>{{ dep.location }}</td>
           <td>
-            <RouterLink class="btn btn-secondary" to="">Perditeso</RouterLink>
-            <AppButton class="btn btn-danger ms-2">Fshij</AppButton>
+            <RouterLink
+                class="btn btn-secondary"
+                :to="{name: 'update-department', params: {id: dep.id}}"
+            >
+              Perditeso
+            </RouterLink>
+            <AppButton class="btn btn-danger ms-2" @click="onDelete(dep.id)">
+              Fshij
+            </AppButton>
           </td>
         </tr>
       </tbody>
