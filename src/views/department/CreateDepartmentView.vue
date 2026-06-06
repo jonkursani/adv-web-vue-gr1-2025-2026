@@ -9,6 +9,7 @@ const {create} = useDepartmentService()
 const {showSuccess, showError} = useAppToast()
 const router = useRouter()
 const loading = ref(false)
+
 async function onSaveDepartment(childData) {
   // console.log('Dep:', department)
   try {
@@ -27,7 +28,9 @@ async function onSaveDepartment(childData) {
 </script>
 
 <template>
-  <DepartmentForm :loading="loading" @save-department="onSaveDepartment" />
+  <Transition appear>
+    <DepartmentForm :loading="loading" @save-department="onSaveDepartment"/>
+  </Transition>
 </template>
 
 <style scoped>

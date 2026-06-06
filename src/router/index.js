@@ -2,6 +2,8 @@ import HomeView from "@/views/HomeView.vue";
 import { createRouter, createWebHistory } from "vue-router"
 import {useAuthStore} from "@/stores/authStore.js";
 import departmentRoutes from "@/router/departmentRoutes.js";
+import employeeRoutes from "@/router/employeeRoutes.js";
+import {ROLES} from "@/composables/useAdministration.js";
 
 const routes = [
     {
@@ -34,6 +36,31 @@ const routes = [
         meta: { requiresAuth: true }
     },
     ...departmentRoutes,
+    ...employeeRoutes,
+    {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('@/views/AdminView.vue'),
+        meta: {
+            requiresAuth: true,
+            roles: [ROLES.ADMIN] // ne nivel te routes
+        }
+    },
+    {
+        path: '/manager',
+        name: 'manager',
+        component: () => import('@/views/ManagerView.vue'),
+        meta: {
+            requiresAuth: true,
+            roles: [ROLES.ADMIN, ROLES.MANAGER]
+        }
+    },
+    {
+        path: '/access-denied',
+        name: 'access-denied',
+        component: () => import('@/views/AccessDeniedView.vue'),
+        meta: { requiresAuth: true }
+    },
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
@@ -53,6 +80,17 @@ router.beforeEach((to, from) => {
     // console.log('Navigating from', from, 'to', to)
 
     const authStore = useAuthStore()
+
+    if (to.meta.roles && authStore.isAuthenticated) {
+        const isAllowed = to.meta.roles.includes(authStore.loggedInUser.role)
+
+        if (!isAllowed) {
+            return {
+                name: 'access-denied'
+            }
+        }
+    }
+
 
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         return {

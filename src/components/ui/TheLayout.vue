@@ -29,3 +29,29 @@ import TheNavBar from "./TheNavBar.vue";
     </div>
   </div>
 </template>
+
+<style>
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.v-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.v-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.v-enter-to,
+.v-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>

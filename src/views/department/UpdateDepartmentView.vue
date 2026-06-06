@@ -50,15 +50,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="text-center" v-if="loading">
-    <AppSpinner :loading />
-  </div>
-  <DepartmentForm
-      v-else
-      is-edit
-      :department="department"
-      @save-department="saveDepartment"
-  />
+  <Transition appear>
+    <div class="text-center" v-if="loading">
+      <AppSpinner :loading/>
+    </div>
+    <DepartmentForm
+        v-else
+        is-edit
+        :department="department"
+        @save-department="saveDepartment"
+    />
+  </Transition>
 </template>
 
 <style scoped></style>

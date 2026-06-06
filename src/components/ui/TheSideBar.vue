@@ -3,6 +3,7 @@ import { initSidebar } from "@/assets/sidebar.js";
 import PerfectScrollbar from "perfect-scrollbar";
 import { onMounted } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+import {useAdministration} from "@/composables/useAdministration.js";
 
 // lifecycle hook
 onMounted(() => {
@@ -17,6 +18,8 @@ const isActive = (routeName) => {
     active: route.name === routeName,
   };
 };
+
+const {isAdmin, isManager} = useAdministration()
 </script>
 
 <template>
@@ -49,6 +52,27 @@ const isActive = (routeName) => {
             <RouterLink :to="{ name: 'departments' }" class="sidebar-link">
               <i class="bi bi-building-fill"></i>
               <span>Departamentet</span>
+            </RouterLink>
+          </li>
+
+          <li class="sidebar-item" :class="isActive('employees')">
+            <RouterLink :to="{ name: 'employees' }" class="sidebar-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Punetoret</span>
+            </RouterLink>
+          </li>
+
+          <li class="sidebar-item" :class="isActive('admin')" v-if="isAdmin">
+            <RouterLink :to="{ name: 'admin' }" class="sidebar-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Admin</span>
+            </RouterLink>
+          </li>
+
+          <li class="sidebar-item" :class="isActive('manager')" v-if="isAdmin || isManager">
+            <RouterLink :to="{ name: 'manager' }" class="sidebar-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Manager</span>
             </RouterLink>
           </li>
 
